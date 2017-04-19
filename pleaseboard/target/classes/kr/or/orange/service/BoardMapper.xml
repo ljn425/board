@@ -1,0 +1,130 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- kr.or.orange.service -->
+<mapper namespace="kr.or.orange.service.BoardMapper">
+
+<select id="searchPageBoard" parameterType="java.util.Map" resultType="kr.or.orange.service.Board">
+	SELECT
+	 board_no
+	 , board_title
+	 , board_user
+	 , DATE_FORMAT(board_date, '%Y-%m-%d %h:%i:%s') board_date
+	 , board_count
+	FROM uboard WHERE #{so} LIKE CONCAT('%',#{sv},'%') ORDER BY board_no DESC LIMIT #{currentPage}, #{pagePerRow}
+</select>
+
+<select id="searchBoardHap" parameterType="java.util.Map" resultType="kr.or.orange.service.Board">
+	SELECT *
+	FROM uboard
+	WHERE board_title LIKE CONCAT('%',#{sv},'%') or board_content LIKE CONCAT('%',#{sv},'%')
+</select>
+
+<select id="searchBoard" parameterType="java.util.Map" resultType="kr.or.orange.service.Board">
+	SELECT
+		 board_no
+		 , board_title
+		 , board_user
+		 , board_date
+		 , board_count
+	FROM uboard
+	WHERE #{so} LIKE CONCAT('%',#{sv},'%')
+</select>
+
+<select id="replayTotalBoard" parameterType="int" resultType="int">
+	SELECT count(*) FROM boardreply WHERE board_no = #{board_no}
+</select>
+
+<select id="replaySelectBoard" parameterType="int" resultType="kr.or.orange.service.Reply">
+	SELECT
+	 	re_no
+	 	, board_no
+	 	, re_user
+	 	, DATE_FORMAT(re_date, '%Y-%m-%d %h:%i:%s') re_date
+	 	, re_parent
+	 	, re_content
+	FROM boardreply WHERE board_no = #{board_no}
+</select>
+
+<insert id="replyBoard" parameterType="kr.or.orange.service.Reply">
+	INSERT INTO boardreply(
+		board_no
+		, re_user
+		, re_pw
+		, re_date
+		, re_content)
+		 VALUES (
+		  #{board_no}
+		  , #{re_user}
+		  , #{re_pw}
+		  , NOW()
+		  , #{re_content})
+</insert>
+
+<update id="updateBoard" parameterType="kr.or.orange.service.Board">
+	UPDATE uboard SET
+	 	board_title=#{board_title}
+	 	, board_content=#{board_content}
+	WHERE board_no=#{board_no} AND board_pw=#{board_pw}
+</update>
+
+<delete id="deleteBoard" parameterType="kr.or.orange.service.Board">
+	DELETE FROM uboard
+	WHERE board_no =#{board_no} AND board_pw =#{board_pw}
+</delete>
+
+<update id="readCountBoard" parameterType="int">
+	UPDATE uboard
+		SET board_count=board_count+1
+	WHERE board_no = #{boardNo}
+</update>
+
+<select id="pagePerRowrBoard" parameterType="java.util.Map" resultType="kr.or.orange.service.Board" >
+	SELECT
+		 board_no
+		 , board_title
+		 , board_user
+		 , DATE_FORMAT(board_date, '%Y-%m-%d %h:%i:%s') AS board_date
+		 , board_count
+		 , (SELECT count(*) FROM boardreply WHERE board_no = u.board_no) AS reply
+	  FROM uboard u
+	   ORDER BY board_no
+	   DESC LIMIT #{begin}, #{pagePerRow}
+</select>
+
+<select id="getBoard" parameterType="int" resultType="kr.or.orange.service.Board">
+	SELECT
+	 	 board_no
+		, board_user
+		, board_title
+		, board_content
+		, DATE_FORMAT(board_date, '%Y-%m-%d %h:%i:%s') board_date
+		, board_count
+		, board_file
+		 FROM uboard WHERE board_no = #{boardNo}
+</select>
+
+<select id="totalBoard" resultType="int">
+	SELECT COUNT(*) FROM uboard
+</select>
+
+
+ 	<insert id="insertBoard" parameterType="kr.or.orange.service.Board">
+ 		INSERT INTO uboard(
+ 			board_user
+ 			, board_pw
+ 			, board_title
+ 			, board_content
+ 			, board_date
+ 			, board_file)
+ 		VALUES(
+ 			 #{board_user}
+ 			 , #{board_pw}
+ 			 , #{board_title}
+ 			 , #{board_content}
+ 			 , NOW()
+ 			 , #{board_file}
+ 		)
+ 	</insert>
+</mapper>
+
