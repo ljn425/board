@@ -19,6 +19,8 @@
 		}
 	</style>  
 	<script>
+	//jquery 사용
+	//github test...
 		$(document).ready(function(){
 			//console.log("안녕");
 			$('#addButton').click(function(){
