@@ -1,6 +1,5 @@
 package kr.or.orange.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +18,12 @@ import kr.or.orange.service.Reply;
 public class BoardController {
 	@Autowired //Spring - @Autowired 스플링실행시 @Repository된 객체의 데이터타입을 찾아준다. 해당 데이터타입과 일치하면 생성된 객체의 참조값을 대입한다.
 	private BoardDao boarddao;
+	
+	//개인 포트폴리오
+	@RequestMapping(value="/work", method = RequestMethod.GET)
+	public String work(){
+		return "work";
+	}
 	
 	
 	//게시판 검색
