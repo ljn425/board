@@ -18,7 +18,7 @@
     <meta name="robots" content="index,follow">
     
     
-    <title>DevBlog - Personal Blog Template</title>
+    <title>DevBlog - 이주녕</title>
     
     <!-- Favicon -->
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/DevBlog/images/favicon/favicon.ico">
@@ -67,7 +67,7 @@
                    <div>
                     
                      <div class="my-pic">
-                        <img src="${pageContext.request.contextPath}/resources/DevBlog/images/pic/K-013.png" alt="">
+                        <img src="${pageContext.request.contextPath}/resources/DevBlog/images/pic/junyeong.jpg" alt="">
                         <a href="javascript:void(0)" class="collapsed" data-target="#menu" data-toggle="collapse"><i class="icon-menu menu"></i></a>
                          <div id="menu" class="collapse">
                            <ul class="menu-link">
